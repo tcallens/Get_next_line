@@ -1,53 +1,41 @@
 #include "get_next_line.h"
 
-static int	retour(char *tmp, char *buf)
+t_list		*ft_manage(t_list **list, int fd)
 {
-	int a;
-
-	a = 0;
-	while (a < BUFF_SIZE)
+	while (*list && (*list)->fd != fd)
 	{
-		if (tmp[a] == '\n')
-		{
-			tmp[a] = '\0';
-			return (a);
-		}
-		buf++;
-		a++;
+		list = (*list)->next;
 	}
-	return (-1);
+	if (!(*list))
+	{
+		*list = ft_lstnew(NULL, 0, fd);
+	}
+	return (*list);
 }
 
-static int	verif(char *tmp, char *buf, char *line)
+int		*ft_findline(int fd, char *line)
 {
-	int	result;
+	char	*buff;
+	int	a;
 
-	result = 0;
-	if ((result = retour(tmp, buf)) > -1)
+	while ((buff = malloc(sizeof(char) * BUFF_SIZE))
+			&& (a = read(fd, buff, BUFF_SIZE)))
 	{
-		ft_strcpy(line, tmp);
-		return (1);
+		if (a = -1)
+			return (-1);
+
 	}
-	return (0);
+
 }
 
 int		get_next_line(const int fd, char **line)
 {
-	char	buf[BUFF_SIZE + 1];
-	int	octet;
-	int	result;
-	char	*tmp;
-//	char	wait[40000];
+	static	t_list		*tl;
+	t_list			*use;
+	char		*buf;
+	int		a;
 
-	result = 0;
-	result++;
-	tmp = NULL;
-	if (line == NULL || fd < 0)
-		return (-1);
-	while ((octet = read(fd, buf, BUFF_SIZE)) > 0)
-	{
-		tmp = buf;
-		result = verif(tmp, buf, line[0]);
-	}
+	tl = NULL;
+	use = ft_manage(tl, fd);
 	return (1);
 }

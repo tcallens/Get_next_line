@@ -10,11 +10,6 @@ int	main(int ac, char **av)
 	if ((fd = open(av[1], O_RDONLY)) != -1)
 	{
 		get_next_line(fd, &line);
-		ft_putstr(line);
-		ft_putchar('\n');
-		ft_putendl("deuxieme");
-		get_next_line(fd, &line);
-		ft_putstr(line);
 	}
 	else
 		ft_putstr("bug dans main");

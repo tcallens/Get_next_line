@@ -21,12 +21,12 @@ t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 		return (NULL);
 	if (!(fresh = (t_list *)malloc(sizeof(t_list))))
 		return (0);
-	fresh = f(ft_lstnew(lst->content, lst->content_size));
+	fresh = f(ft_lstnew(lst->content, lst->content_size, 0));
 	addr = fresh;
 	lst = lst->next;
 	while (lst)
 	{
-		if (!(addr->next = f(ft_lstnew(lst->content, lst->content_size))))
+		if (!(addr->next = f(ft_lstnew(lst->content, lst->content_size, 0))))
 			return (NULL);
 		lst = lst->next;
 		addr = addr->next;
