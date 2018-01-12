@@ -6,7 +6,7 @@
 /*   By: tcallens <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 00:31:29 by tcallens          #+#    #+#             */
-/*   Updated: 2017/11/22 00:31:38 by tcallens         ###   ########.fr       */
+/*   Updated: 2018/01/12 15:51:03 by tcallens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size, int a)
 	{
 		list->content = NULL;
 		list->content_size = 0;
-		list->fd = 0;
+		list->fd = a;
 	}
 	else
 	{
