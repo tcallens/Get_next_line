@@ -13,6 +13,7 @@ int	main(int ac, char **av)
 	a = 0;
 	if ((((fd = open(av[1], O_RDONLY)) != -1) && (tg = open(av[2], O_RDONLY)) != -1))
 	{
+		ft_intendl(1);
 		get_next_line(fd, &line);
 		ft_putstr(line);
 		get_next_line(tg, &line);
@@ -31,6 +32,12 @@ int	main(int ac, char **av)
 		ft_putstr(line);
 		get_next_line(fd, &line);
 		ft_putstr(line);
+		/*while (get_next_line(fd, &line) == 1)
+		{
+			a++;
+			ft_intendl(a);
+			ft_putendl(line);
+		}*/
 	}
 	else
 		ft_putstr("bug dans main");
