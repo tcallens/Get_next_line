@@ -54,52 +54,54 @@ static char		*ft_linespace(char *line)
 	end[a] = '\0';
 	return(end);
 }
-
+#include <stdio.h>
 static int	ft_findline(int fd, t_list *list, char *buff, char **tmp)
 {
 	int		br;
 
+	*tmp = "";
 	if ((ft_strchr(list->content, '\n') == NULL))
 	{
 		if (list->content)
 			*tmp = list->content;
+		list->content = NULL;
 		while (((br = read(fd, buff, BUFF_SIZE)) > 0) 
 				&& (ft_strchr(buff, '\n') == NULL))
 			*tmp = ft_strjoin(*tmp, buff);
 		if (br == -1)
 			return (-1);
-		if (br == 0 && !(list->content))
-			return (0);
 		*tmp = ft_strjoin(*tmp, ft_linespace(buff));
 		list->content = (void *)(ft_strchr(buff, '\n'));
+		if (br == 0 && !(ft_strchr(list->content, '\n')))
+			return (0);
+
 	}
 	else
 	{
 		*tmp = ft_linespace((char *)list->content);
-		list->content = ft_strchr(list->content, '\n');
+		list->content = (void *)ft_strchr(list->content, '\n');
 	}
 	return(1);
 }
+
+#include <stdio.h>
 
 int		get_next_line(const int fd, char **line)
 {
 	static	t_list		*tl;
 	t_list				*use;
 	char			*buff;
-	char			*tmp;
 	int			num;
 
 	if (!line || BUFF_SIZE < 0)
 		return (-1);
-	tmp = (char *)malloc(sizeof(char) * BUFF_SIZE);
 	buff = (char *)malloc(sizeof(char) * BUFF_SIZE);
 	use = ft_manage(&tl, fd);
-	num = ft_findline(use->fd, use, buff, &tmp);
-	if (num == 1)
-	{
-		*line = tmp;
-		return (1);
-	}
+	num = ft_findline(use->fd, use, buff, line);
+	printf("num : %d\n", num);
+	if (use->content != NULL)
+		printf("list content : %s \n", use->content);
 	else
-		return (num);
+		printf("list content : NULL \n");
+	return (num);
 }
