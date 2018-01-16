@@ -6,7 +6,7 @@
 /*   By: tcallens <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 23:42:26 by tcallens          #+#    #+#             */
-/*   Updated: 2017/11/22 23:42:47 by tcallens         ###   ########.fr       */
+/*   Updated: 2018/01/16 17:24:10 by tcallens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 typedef struct	s_list
 {
 	void			*content;
-	size_t			content_size;
+	int				content_size;
 	int			fd;
 	struct s_list	*next;
 }				t_list;
@@ -82,7 +82,7 @@ void			ft_putnbr_fd(int n, int fd);
 int				ft_intsize(int n);
 char			*ft_itoa(int n);
 char			*ft_strtrim(char const *s);
-t_list			*ft_lstnew(void const *content, size_t content_size, int a);
+t_list			*ft_lstnew(void const *content, int content_size, int a);
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstadd(t_list **alst, t_list *new);
