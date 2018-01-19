@@ -6,7 +6,7 @@
 /*   By: tcallens <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 18:24:03 by tcallens          #+#    #+#             */
-/*   Updated: 2018/01/16 18:43:26 by tcallens         ###   ########.fr       */
+/*   Updated: 2018/01/19 06:48:58 by tcallens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char		*ft_linespace(char *line)
 		end[a] = line[a];
 		a++;
 	}
-	end[a++] = '\0';
+	end[a] = '\0';
 	return(end);
 }
 #include <stdio.h>
@@ -63,13 +63,17 @@ static int	ft_findline(int fd, t_list *list, char **tmp, char *buff)
 		while (((list->content_size = read(fd, buff, BUFF_SIZE)) > 0) 
 				&& (ft_strchr(buff, '\n') == NULL))
 		{
+			buff[list->content_size] = '\0';
 			*tmp = ft_strjoin(*tmp, buff);
 		}
+		ft_putendl(buff);
 		if (list->content_size == -1)
 			return (-1);
-		buff[BUFF_SIZE] = '\0';
 		*tmp = ft_strjoin(*tmp, ft_linespace(buff));
-		list->content = (void *)(ft_strchr(buff, '\n'));
+		if (list->content_size > 0 && ft_strchr(buff, '\n') != NULL)
+			list->content = (void *)(ft_strchr(buff, '\n'));
+		else
+			list->content = NULL;
 	}	
 	else
 	{
@@ -83,20 +87,17 @@ static int	ft_findline(int fd, t_list *list, char **tmp, char *buff)
 
 int		get_next_line(const int fd, char **line)
 {
-	static	t_list		*tl;
+	static	t_list		*tl = NULL;
 	t_list				*use;
 	int			num;
 	char				*buff;
 
+	*line = NULL;
 	buff = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
 	if (!line || BUFF_SIZE < 0)
 		return (-1);
 	use = ft_manage(&tl, fd);
 	num = ft_findline(use->fd, use, line, buff);
-	/*if (ft_strchr(use->content, '\n') != NULL)
-		printf("list content : %s \n", use->content);
-	else
-		printf("list content : NULL \n");*/
 	if (use->content_size == 0 && ft_strchr(use->content, '\n') == NULL)
 	{
 		return (0);
