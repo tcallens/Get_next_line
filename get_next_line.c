@@ -66,9 +66,10 @@ static int	ft_findline(int fd, t_list *list, char **tmp, char *buff)
 			buff[list->content_size] = '\0';
 			*tmp = ft_strjoin(*tmp, buff);
 		}
-		ft_putendl(buff);
+	//	ft_putendl(buff);
 		if (list->content_size == -1)
 			return (-1);
+		buff[list->content_size] = '\0';
 		*tmp = ft_strjoin(*tmp, ft_linespace(buff));
 		if (list->content_size > 0 && ft_strchr(buff, '\n') != NULL)
 			list->content = (void *)(ft_strchr(buff, '\n'));
@@ -94,7 +95,7 @@ int		get_next_line(const int fd, char **line)
 
 	*line = NULL;
 	buff = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
-	if (!line || BUFF_SIZE < 0)
+	if (!line || BUFF_SIZE < 0 || fd < 0)
 		return (-1);
 	use = ft_manage(&tl, fd);
 	num = ft_findline(use->fd, use, line, buff);

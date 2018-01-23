@@ -32,15 +32,15 @@ int	main(int ac, char **av)
 		ft_putendl(line);
 		get_next_line(fd, &line);
 		ft_putendl(line);
-	/*	while (get_next_line(fd, &line) == 1)
+		while (get_next_line(fd, &line) == 1)
 		{
 	//		a++;
 	//		printf("%d", a);
 	//		printf(": ");
-	//		printf("ligne lue : %s\n", line);
+			printf("ligne lue : %s\n", line);
 	//		printf("------------------------\n");
 			ft_putendl(line);
-		}*/
+		}
 	}
 	else
 		ft_putstr("bug dans main");
