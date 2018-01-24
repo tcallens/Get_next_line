@@ -26,7 +26,7 @@ static t_list		*ft_manage(t_list **list, int fd)
 	}
 	if (tmp)
 		return (tmp);
-	tmp = ft_lstnew(NULL, 1, fd);
+	tmp = ft_lstnew(NULL, 100, fd);
 	if (*list)
 		pre->next = tmp;
 	else
@@ -52,29 +52,26 @@ static char		*ft_linespace(char *line)
 	end[a] = '\0';
 	return(end);
 }
-#include <stdio.h>
+
 static int	ft_findline(int fd, t_list *list, char **tmp, char *buff)
 {
-	*tmp = "";
 	if ((ft_strchr(list->content, '\n') == NULL))
 	{
-		if (list->content)
+		if (list->content && list->content_size > 0)
 			*tmp = list->content;
+		list->content = NULL;
 		while (((list->content_size = read(fd, buff, BUFF_SIZE)) > 0) 
 				&& (ft_strchr(buff, '\n') == NULL))
 		{
 			buff[list->content_size] = '\0';
 			*tmp = ft_strjoin(*tmp, buff);
 		}
-	//	ft_putendl(buff);
 		if (list->content_size == -1)
 			return (-1);
-		buff[list->content_size] = '\0';
-		*tmp = ft_strjoin(*tmp, ft_linespace(buff));
+		if (list->content_size > 0)
+			*tmp = ft_strjoin(*tmp, ft_linespace(buff));
 		if (list->content_size > 0 && ft_strchr(buff, '\n') != NULL)
 			list->content = (void *)(ft_strchr(buff, '\n'));
-		else
-			list->content = NULL;
 	}	
 	else
 	{
@@ -84,24 +81,25 @@ static int	ft_findline(int fd, t_list *list, char **tmp, char *buff)
 	return(1);
 }
 
-#include <stdio.h>
 
 int		get_next_line(const int fd, char **line)
 {
-	static	t_list		*tl = NULL;
+	static	t_list			*tl = NULL;
 	t_list				*use;
-	int			num;
+	int				num;
 	char				*buff;
+	char				*tmp;
 
-	*line = NULL;
+	tmp = "\0";
 	buff = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
 	if (!line || BUFF_SIZE < 0 || fd < 0)
 		return (-1);
 	use = ft_manage(&tl, fd);
-	num = ft_findline(use->fd, use, line, buff);
-	if (use->content_size == 0 && ft_strchr(use->content, '\n') == NULL)
+	num = ft_findline(use->fd, use, &tmp, buff);
+	if ((use->content_size == 0) && (ft_strchr(use->content, '\n') == NULL) && (!ft_strlen(tmp)))
 	{
 		return (0);
 	}
+	*line = tmp;
 	return (num);
 }

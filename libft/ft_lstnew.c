@@ -21,7 +21,7 @@ t_list	*ft_lstnew(void const *content, int content_size, int a)
 	if (content == NULL)
 	{
 		list->content = NULL;
-		list->content_size = 1;
+		list->content_size = 100;
 		list->fd = a;
 	}
 	else
