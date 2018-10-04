@@ -1,4 +1,4 @@
-# ft_ls 42
+# get_next_line 42
 
 -----------------
 FINAL MARK : 122%
